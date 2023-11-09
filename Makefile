@@ -5,78 +5,68 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/05 12:57:01 by ayermeko          #+#    #+#              #
-#    Updated: 2023/11/05 17:51:29 by ayermeko         ###   ########.fr        #
+#    Created: 2023/11/09 20:59:42 by ayermeko          #+#    #+#              #
+#    Updated: 2023/11/09 21:48:20 by ayermeko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#Variables
+# Standard
 
-NAME		= libftprintf.a
-INCLUDE		= include
-LIBFT		= libft
-SRC_DIR		= src/
-OBJ_DIR		= obj/
-CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -I
-RM			= rm -f
-AR			= ar rcs
+NAME = libftprintf.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -rf
+AR = ar rc
+SRC_DIR = code
+INC_DIR = -I include/
+BIN_DIR = bin
 
 # Colors
 
-DEF_COLOR = \033[0;39m
-GRAY = \033[0;90m
-RED = \033[0;91m
-GREEN = \033[0;92m
-YELLOW = \033[0;93m
-BLUE = \033[0;94m
-MAGENTA = \033[0;95m
-CYAN = \033[0;96m
-WHITE = \033[0;97m
+# Reset
+END_COLOR	= \033[0m       # Text Reset
 
-#Sources
+# Regular Colors
+BLACK	= \033[0;30m        # Black
+RED		= \033[0;31m          # Red
+GREEN	= \033[0;32m        # Green
+YELLOW	= \033[0;33m       # Yellow
+BLUE	= \033[0;34m         # Blue
+PURPLE	= \033[0;35m       # Purple
+CYAN	= \033[0;36m         # Cyan
+WHITE	= \033[0;37m        # White
 
-SRC_FILES	=	ft_printf ft_printf_utils ft_print_ptr ft_print_unsigned ft_print_hex
+# Sources
 
+SRCS = $(shell find ./code -type f -exec basename {} \; | cut -d. -f2- | rev)
+SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c) $(SRCS))
+OBJ = $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRCS)))
 
-SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+# Process
 
-###
+all: $(NAME)
 
-OBJF		=	.cache_exists
+$(NAME): $(OBJ)
+	@$(AR) $(NAME) $(OBJ)
+	@echo "$(GREEN)$(NAME) compiled. $(END_COLOR)"
 
-all:		$(NAME)
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(BIN_DIR)
+	@$(CC) -c $(CFLAGS) -I $(INC_DIR) $< -o $@
+	@echo "$(BLUE)Compiling... $(notdir $<)$(END_COLOR)"
 
-$(NAME):	$(OBJ)
-			@make -C $(LIBFT)
-			@cp libft/libft.a .
-			@mv libft.a $(NAME)
-			@$(AR) $(NAME) $(OBJ)
-			@echo "$(GREEN)ft_printf compiled!$(DEF_COLOR)"
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
-			@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-			@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
-$(OBJF):
-			@mkdir -p $(OBJ_DIR)
+$(BIN_DIR):
+	@mkdir $(BIN_DIR)
+	@echo "$(YELLOW)Created $(BIN_DIR)/ directory in $(DIRS)/$(END_COLOR)"
 
 clean:
-			@$(RM) -rf $(OBJ_DIR)
-			@make clean -C $(LIBFT)
-			@echo "$(BLUE)ft_printf object files cleaned!$(DEF_COLOR)"
+	@$(RM) $(BIN_DIR)
+	@echo "$(YELLOW)$(NAME) object files and bin/ cleaned.$(END_COLOR)"
 
-fclean:		clean
-			@$(RM) -f $(NAME)
-			@$(RM) -f $(LIBFT)/libft.a
-			@echo "$(CYAN)ft_printf executable files cleaned!$(DEF_COLOR)"
-			@echo "$(CYAN)libft executable files cleaned!$(DEF_COLOR)"
+fclean: clean
+	@$(RM) $(NAME)
+	@echo "$(YELLOW)$(NAME) .a file cleaned.$(END_COLOR)"
 
-re:			fclean all
-			@echo "$(GREEN)Cleaned and rebuilt everything for ft_printf!$(DEF_COLOR)"
+re: fclean all
+	@echo "$(GREEN)Cleaned all and rebuilt $(NAME)$(END_COLOR)"
 
-norm:
-			@norminette $(SRC) $(INCLUDE) $(LIBFT) | grep -v Norme -B1 || true
-
-.PHONY:		all clean fclean re norm
+.PHONY: all clean fclean re

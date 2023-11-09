@@ -6,7 +6,7 @@
 /*   By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 12:50:21 by ayermeko          #+#    #+#             */
-/*   Updated: 2023/11/06 15:20:12 by ayermeko         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:48:22 by ayermeko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,8 @@
 # include <stdarg.h>
 
 int ft_printf(const char *, ...);
+int handle_format(const char specifier, va_list arg);
+int ft_putchr_len(int c);
+int ft_putstr_len(char *s);
 
 #endif
