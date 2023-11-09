@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_putfs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 17:52:35 by ayermeko          #+#    #+#             */
-/*   Updated: 2023/11/09 14:44:59 by ayermeko         ###   ########.fr       */
+/*   Created: 2023/11/09 21:37:52 by ayermeko          #+#    #+#             */
+/*   Updated: 2023/11/09 21:47:01 by ayermeko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_printf(const char *format, ...)
+int ft_putchr_len(int c)
 {
-    int return_value;
-    va_list args;
+    return (write(1, c, 1));
+}
 
+int ft_putstr_len(char *s)
+{
+    int count;
 
+    count = 0;
+    if (s == NULL)
+        return (NULL);
+    while (*s)
+    {
+        count += ft_putchr_len((int)*s);
+        s++;
+    }
+    return (count);
 }
