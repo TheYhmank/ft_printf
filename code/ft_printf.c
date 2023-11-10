@@ -6,7 +6,7 @@
 /*   By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:52:35 by ayermeko          #+#    #+#             */
-/*   Updated: 2023/11/09 21:48:16 by ayermeko         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:43:37 by ayermeko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int handle_format(const char specifier, va_list arg)
 	else if (specifier == 's')
 		return (ft_putstr_len(va_arg(arg, char *)));
 	else if (specifier == 'p')
-		return (putptr_len((unsigned long long)va_arg(arg, void *), 0));
+		return (ft_putptr_len((unsigned long long)va_arg(arg, void *), 0));
 	else if (specifier == 'd' || specifier == 'i')
 		return (put_nbr_u_hex_len(va_arg(arg, int), 10, 0));
 	else if (specifier == 'u')
@@ -53,4 +53,13 @@ int ft_printf(const char *format, ...)
     }
     va_end(args);
     return (return_value);
+}
+
+int main(void)
+{
+	int res;
+
+	res = ft_printf("%c", 'd');
+	printf("res: %d", res);
+	return (0);
 }
