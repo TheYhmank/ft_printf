@@ -5,23 +5,25 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/09 20:59:42 by ayermeko          #+#    #+#              #
-#    Updated: 2023/11/09 21:48:20 by ayermeko         ###   ########.fr        #
+#    Created: 2023/11/11 17:19:52 by ayermeko          #+#    #+#              #
+#    Updated: 2023/11/11 17:21:58 by ayermeko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Standard
+################################################################################
+## ARGUMENTS
 
-NAME = libftprintf.a
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -rf
-AR = ar rc
-SRC_DIR = code
-INC_DIR = -I include/
+NAME 	= libftprintf.a
+AR		= ar rc
+CFLAGS 	= -Wall -Werror -Wextra
+CC 		= cc
+RM 		= rm -rf
+SRC_DIR = src
+INC		= -I inc/
 BIN_DIR = bin
 
-# Colors
+################################################################################
+## COLORS
 
 # Reset
 END_COLOR	= \033[0m       # Text Reset
@@ -36,37 +38,54 @@ PURPLE	= \033[0;35m       # Purple
 CYAN	= \033[0;36m         # Cyan
 WHITE	= \033[0;37m        # White
 
-# Sources
+################################################################################
+## SOURCES
 
-SRCS = $(shell find ./code -type f -exec basename {} \; | cut -d. -f2- | rev)
-SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c) $(SRCS))
-OBJ = $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRCS)))
+SRCS_FILES	= $(shell find ./src -type f -exec basename {} \; | rev | cut -d. -f2- | rev)
 
-# Process
+OBJ 		=	$(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRCS_FILES)))
+SRC 		=	$(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS_FILES)))
 
-all: $(NAME)
+################################################################################
+## RULES
 
-$(NAME): $(OBJ)
-	@$(AR) $(NAME) $(OBJ)
-	@echo "$(GREEN)$(NAME) compiled. $(END_COLOR)"
+all:	$(NAME)
+
+$(NAME):	$(OBJ)
+		@$(AR) $(NAME) $(OBJ)
+		@echo "$(GREEN)$(NAME) Compiled.$(END_COLOR)"
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(BIN_DIR)
-	@$(CC) -c $(CFLAGS) -I $(INC_DIR) $< -o $@
-	@echo "$(BLUE)Compiling... $(notdir $<)$(END_COLOR)"
+		@$(CC) -c $(CFLAGS) $(INC) $< -o $@
+		@echo "$(BLUE)Compiling... $(notdir $<)$(END_COLOR)"
 
 $(BIN_DIR):
-	@mkdir $(BIN_DIR)
-	@echo "$(YELLOW)Created $(BIN_DIR)/ directory in $(DIRS)/$(END_COLOR)"
+		@mkdir $(BIN_DIR)
+		@echo "$(YELLOW)Object files created and moved to $(BIN_DIR)/ directory.$(END_COLOR)"
 
 clean:
-	@$(RM) $(BIN_DIR)
-	@echo "$(YELLOW)$(NAME) object files and bin/ cleaned.$(END_COLOR)"
+		@rm -rf $(BIN_DIR)
+		@echo "$(PURPLE)Object files and bin/ cleaned.$(END_COLOR)"
 
-fclean: clean
-	@$(RM) $(NAME)
-	@echo "$(YELLOW)$(NAME) .a file cleaned.$(END_COLOR)"
+fclean: 	clean
+		@rm -f $(NAME)
+		@echo "$(YELLOW)$(NAME) file cleaned.$(END_COLOR)"
 
-re: fclean all
-	@echo "$(GREEN)Cleaned all and rebuilt $(NAME)$(END_COLOR)"
+re: 		fclean all
+		@echo "$(GREEN)Cleaned all and rebuilt $(NAME) $(END_COLOR)"
 
-.PHONY: all clean fclean re
+test:
+	@cc $(CFLAGS) $(LIB_INC) $(INC) test.c src/*.c
+	@echo "$(CYAN)< Test compiled and ready to run a.out>$(END_COLOR)"
+
+noflags:
+	@cc $(LIB_INC) $(INC) test.c src/*.c
+	@echo "$(CYAN)< Test compiled without flags and ready to run a.out>$(END_COLOR)"
+
+header:
+	clear
+	@echo "$$HEADER"
+################################################################################
+## PHONY
+
+.PHONY:		all clean fclean re test noflags
