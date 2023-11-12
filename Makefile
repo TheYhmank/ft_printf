@@ -6,7 +6,7 @@
 #    By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/11 17:19:52 by ayermeko          #+#    #+#              #
-#    Updated: 2023/11/11 17:21:58 by ayermeko         ###   ########.fr        #
+#    Updated: 2023/11/12 13:37:00 by ayermeko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,5 @@ noflags:
 header:
 	clear
 	@echo "$$HEADER"
-################################################################################
-## PHONY
 
 .PHONY:		all clean fclean re test noflags

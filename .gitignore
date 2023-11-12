@@ -1,3 +1,7 @@
 a.out
 *.a
-*.o
+.vscode
+*test*
+bin
+pft
+gch
