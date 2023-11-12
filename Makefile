@@ -6,7 +6,7 @@
 #    By: ayermeko <ayermeko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/11 17:19:52 by ayermeko          #+#    #+#              #
-#    Updated: 2023/11/12 13:37:00 by ayermeko         ###   ########.fr        #
+#    Updated: 2023/11/12 13:52:15 by ayermeko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,7 @@ noflags:
 	@cc $(LIB_INC) $(INC) test.c src/*.c
 	@echo "$(CYAN)< Test compiled without flags and ready to run a.out>$(END_COLOR)"
 
-header:
-	clear
-	@echo "$$HEADER"
+################################################################################
+## PHONY
 
 .PHONY:		all clean fclean re test noflags
