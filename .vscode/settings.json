@@ -1,3 +1,11 @@
 {
+<<<<<<< HEAD
     "C_Cpp.errorSquiggles": "disabled"
+=======
+    "files.associations": {
+        "stdlib.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.dimInactiveRegions": false
+>>>>>>> cecf32f4e93ddd9644a8fe24b65b85cba289ec8b
 }
